@@ -1,0 +1,38 @@
+{
+    "model_name": "repunct-model-new",
+    "targets": {
+        "O": 0,
+        "COMMA": 1,
+        "PERIOD": 2
+    },
+    "weights": null,
+    "resume": false,
+    "fine_tune": false,
+    "store_best_weights": true,
+    "store_every_weight": false,
+    "augment_rate": 0.15,
+    "augment_type": "all",
+    "sub_style": "unk",
+    "alpha_sub": 0.4,
+    "alpha_del": 0.4,
+    "cuda": true,
+    "seed": 1,
+    "pretrained_model": "DeepPavlov/rubert-base-cased-sentence",
+    "freeze_pretrained": false,
+    "lstm_dim": -1,
+    "train_data": [
+        "data/repunct/train"
+    ],
+    "val_data": [
+        "data/repunct/test"
+    ],
+    "test_data": null,
+    "batch_size": 4,
+    "sequence_length": 256,
+    "lr": 5e-06,
+    "decay": 0,
+    "gradient_clip": -1,
+    "epoch": 7,
+    "labml": true,
+    "save_dir": "models/"
+}
