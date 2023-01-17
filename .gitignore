@@ -139,7 +139,7 @@ data/repunct/*
 files/
 
 # Models
-**/*.pt
+#**/*.pt
 
 # LabML
 .labml/*

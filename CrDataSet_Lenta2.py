@@ -1,6 +1,8 @@
 """
 Скрипт для генерации DataSet huggingface.co
 Dmitriy007/restor_punct_Lenta2
+
+wget https://github.com/yutkin/Lenta.Ru-News-Dataset/releases/download/v1.1/lenta-ru-news.csv.bz2
 """
 
 from corus import load_lenta2
@@ -35,6 +37,8 @@ def cls_text(text):
     text = text.replace(')', '')
     text = text.replace('«', '')
     text = text.replace('»', '')
+    text = text.replace('\\', '')
+    text = text.replace('"', '')
     # text +='.' if not text[-1] in ['.', '!', '?'] else text
     text += '.' if not text.endswith('.') else text
     # Исправление ситуации "точка внутри" -- "шифрованные депеши.Журнал «Нива» №37"
@@ -65,9 +69,9 @@ def te(s):
     """
 
     if s.isnumeric():
-        return s, 'N', 7
+        return s, 'N', 8
     elif s[:-1].isnumeric() and s.endswith('.'):
-        return s, 'N.', 6
+        return s, 'N.', 7
     elif s.islower() and s[-1:] not in ['.', '!', '?']:
         return s, 'L', 0
     elif s.islower() and s.endswith('.'):
@@ -76,14 +80,18 @@ def te(s):
         return s, 'L!', 2
     elif s.islower() and s.endswith('?'):
         return s, 'L?', 3
+    elif s.islower() and s.endswith(','):
+        return s, 'L,', 4
     elif not s.islower() and s[-1:] not in ['.', '!', '?']:
-        return s, 'B', 4
+        return s, 'B', 5
     elif not s.islower() and s.endswith('.'):
-        return s, 'B.', 5
+        return s, 'B.', 6
     elif not s.islower() and s.endswith('!'):
         return s, 'B!', 8
+    elif not s == '-':
+        return s, 'T', 9
     else:
-        return s, 'No', 9
+        return s, 'No', 10
 
 
 def del_pun(word):
@@ -122,9 +130,9 @@ def main(df_text):
         ls_1 = list(map(del_pun, ls_1))
         # df2hf.loc[len(df2hf)] = [ls_1, ls_2, ls_3]
         dc = {'words': ls_1, 'labels': ls_2, 'labels_id': ls_3}
-        with open('output.jsonl', 'a') as outfile:
-            json.dump(dc, outfile)
-            outfile.write('\n')
+        with open('output.jsonl', 'a') as fl:
+            json.dump(dc, fl)
+            fl.write('\n')
 
 if __name__ == '__main__':
     df = pd2json()
