@@ -69,9 +69,9 @@ def te(s):
     """
 
     if s.isnumeric():
-        return s, 'N', 8
+        return s, 'N', 9
     elif s[:-1].isnumeric() and s.endswith('.'):
-        return s, 'N.', 7
+        return s, 'N.', 10
     elif s.islower() and s[-1:] not in ['.', '!', '?']:
         return s, 'L', 0
     elif s.islower() and s.endswith('.'):
@@ -87,11 +87,11 @@ def te(s):
     elif not s.islower() and s.endswith('.'):
         return s, 'B.', 6
     elif not s.islower() and s.endswith('!'):
-        return s, 'B!', 8
+        return s, 'B!', 7
     elif not s == '-':
-        return s, 'T', 9
+        return s, 'T', 8
     else:
-        return s, 'No', 10
+        return s, 'No', 11
 
 
 def del_pun(word):
