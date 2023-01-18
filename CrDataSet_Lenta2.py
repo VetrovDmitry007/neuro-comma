@@ -25,7 +25,7 @@ def pd2json():
     new_df = df.drop(df.columns[[0, 1, 3, 4, 5]], axis=1)
     # Переименовывание столбца
     new_df.columns = ['text']
-    # new_df = new_df[:100]
+    # new_df = new_df[:10]
     return new_df
 
 
@@ -72,7 +72,9 @@ def te(s):
         return s, 'N', 9
     elif s[:-1].isnumeric() and s.endswith('.'):
         return s, 'N.', 10
-    elif s.islower() and s[-1:] not in ['.', '!', '?']:
+    elif s == '-':
+        return s, 'T', 8
+    elif s.islower() and s[-1:] not in ['.', '!', '?', ',']:
         return s, 'L', 0
     elif s.islower() and s.endswith('.'):
         return s, 'L.', 1
@@ -88,8 +90,6 @@ def te(s):
         return s, 'B.', 6
     elif not s.islower() and s.endswith('!'):
         return s, 'B!', 7
-    elif not s == '-':
-        return s, 'T', 8
     else:
         return s, 'No', 11
 
@@ -130,7 +130,8 @@ def main(df_text):
         ls_1 = list(map(del_pun, ls_1))
         # df2hf.loc[len(df2hf)] = [ls_1, ls_2, ls_3]
         dc = {'words': ls_1, 'labels': ls_2, 'labels_id': ls_3}
-        with open('output.jsonl', 'a') as fl:
+        # print(dc)
+        with open('output_test.jsonl', 'a') as fl:
             json.dump(dc, fl)
             fl.write('\n')
 
